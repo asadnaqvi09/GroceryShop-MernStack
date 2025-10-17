@@ -1,0 +1,47 @@
+/* 1. Fonts import sabse top par */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Poppins:wght@600;700&display=swap');
+
+/* 2. Tailwind import */
+@import "tailwindcss";
+
+/* 3. Custom base layer */
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
+    @apply bg-[#f9fafb] text-[#1f2937];
+  }
+
+  h1, h2 {
+    font-family: 'Poppins', sans-serif;
+    @apply text-[#16a34a];
+  }
+
+  h3,h4,h5,h6,p {
+    font-family: 'Inter', sans-serif;
+    @apply text-[#1f2937];
+  }
+
+  small {
+    font-family: 'Inter', sans-serif;
+    @apply text-gray-600;
+  }
+}
+
+/* 4. Components */
+@layer components {
+  .btn-primary {
+    @apply bg-[#02B290] text-white font-medium px-4 py-3 rounded-lg hover:bg-[#029c7d] transition duration-300 cursor-pointer;
+  }
+
+  .btn-secondary {
+    @apply bg-transparent hover:bg-[#facc15] text-[#1f2937] border border-1 border-gray-200 font-medium px-4 py-2 rounded-lg hover:bg-yellow-500 transition cursor-pointer;
+  }
+
+  .btn-outline {
+    @apply border border-[#16a34a] text-[#16a34a] font-medium px-4 py-2 rounded-lg hover:bg-[#16a34a] hover:text-white transition cursor-pointer;
+  }
+
+  .card {
+    @apply bg-white shadow-md rounded-xl p-4;
+  }
+}
