@@ -37,7 +37,7 @@ function ProductDetails() {
   return (
     <div className="min-h-screen px-6 md:px-16 py-10 bg-transparent text-gray-900">
       <div className="breadcrumbs flex text-md md:text-xl items-center text-center gap-2 mb-4 cursor-pointer">
-        <div className="home text-gray-500 text-sm ">
+        <div className="home text-gray-500 text-sm mb-2 md:mb-4">
           <NavLink to="/" className="hover:text-gray-600">
             <Home className="inline-block w-3 h-3 mr-1" />
             Home {" "} /
