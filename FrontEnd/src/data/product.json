@@ -1,0 +1,222 @@
+[
+  {
+    "id": "1",
+    "name": "Organic Fuji Apples",
+    "description": "Fruits are the means by which angiosperms disseminate seeds. Edible fruits, in particular, have propagated with the movements of humans and animals in a symbiotic relationship as a means for seed dispersal and nutrition. Fuji apples are a popular variety known for their crisp texture, sweet flavor, and red-pink skin with yellow undertones. Originating from Japan, they are a cross between Red Delicious and Ralls Janet apples. These organic Fuji apples are grown without synthetic pesticides or fertilizers, ensuring a healthier option for consumers. They are rich in fiber, vitamin C, and antioxidants, supporting digestive health and immune function. Perfect for eating fresh, baking in pies, or adding to salads.",
+    "price": 3.99,
+    "discountPrice": 4.99,
+    "rating": 4.7,
+    "category": "fruit",
+    "stock": 100,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/fresh-fruits4.jpg"
+  },
+  {
+    "id": "2",
+    "name": "Premium Short Grain Rice",
+    "description": "Rice is the seed of the grass species Oryza sativa or less commonly Oryza glaberrima. The name wild rice is usually used for species of the genera Zizania and Porteresia, both wild and domesticated, although the term may also be used for primitive or uncultivated varieties of Oryza.",
+    "price": 4.50,
+    "discountPrice": 5.25,
+    "rating": 4.5,
+    "category": "grains",
+    "stock": 50,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/Rice2.jpg"
+  },
+  {
+    "id": "3",
+    "name": "Belcampo Organic Pasture Raised Eggs 6pcs",
+    "description": "Dairy products or milk products are a type of food produced from or containing the milk of mammals. They are primarily produced from mammals such as cattle, water buffaloes, goats, sheep, camels and humans. Dairy products include food items such as yogurt, cheese and butter. However, eggs, while often grouped with dairy in stores, come from poultry. These Belcampo organic pasture-raised eggs are from hens that roam freely on pastures, fed organic feed without antibiotics or hormones. Rich in protein, omega-3 fatty acids, vitamins A, D, E, and B12, they support muscle health, brain function, and eye health. Pasture-raised eggs have higher nutrient levels than conventional ones due to the hens' natural diet. Perfect for boiling, frying, baking, or in omelets.",
+    "price": 5.20,
+    "discountPrice": 6.00,
+    "rating": 4.6,
+    "category": "dairy",
+    "stock": 80,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/BelcampoOrganicPastureRaisedEggs.webp"
+  },
+  {
+    "id": "4",
+    "name": "Organic Broccoli",
+    "description": "Vegetables are parts of plants that are consumed by humans or other animals as food. The first meaning remains commonly used and is applied to plants collectively to refer to all edible plant matter, including the flowers, fruits, stems, leaves, roots, and seeds. Broccoli is a cruciferous vegetable related to cabbage, kale, and cauliflower. This organic variety is grown without chemical pesticides, offering a fresh, nutrient-dense option. Packed with vitamins C, K, A, folate, fiber, and antioxidants like sulforaphane, it supports immune health, bone strength, digestion, and may reduce cancer risk. Its florets and stalks can be steamed, roasted, stir-fried, or eaten raw in salads for a crunchy texture and earthy flavor.",
+    "price": 2.99,
+    "discountPrice": 3.50,
+    "rating": 4.4,
+    "category": "vegetables",
+    "stock": 120,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/p-7-m.png"
+  },
+  {
+    "id": "5",
+    "name": "Fair Life Chocolate Milk",
+    "description": "Dairy products or milk products are a type of food produced from or containing the milk of mammals. They are primarily produced from mammals such as cattle, water buffaloes, goats, sheep, camels and humans. Dairy products include food items such as yogurt, cheese and butter.",
+    "price": 3.75,
+    "discountPrice": 4.50,
+    "rating": 4.3,
+    "category": "beverages",
+    "stock": 60,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/milk-3-update-1.webp"
+  },
+  {
+    "id": "6",
+    "name": "Chicken Breast Boneless",
+    "description": "Meat is animal flesh that is eaten as food. Humans have hunted and killed animals for meat since prehistoric times. The advent of civilization allowed.",
+    "price": 6.99,
+    "discountPrice": 8.00,
+    "rating": 4.8,
+    "category": "meats",
+    "stock": 40,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/Chicken-11.png"
+  },
+  {
+    "id": "7",
+    "name": "Whole Grain Brown Rice",
+    "description": "Grains are small, hard, dry seeds, with or without attached hulls or fruit layers, harvested for human or animal consumption. The two main types are cereal grains and legumes. Brown rice is a whole grain where only the outer husk is removed, retaining the bran and germ for added nutrients. This organic 2lb bag offers fiber for digestion, manganese for bone health, magnesium for muscle function, and complex carbs for steady energy. Lower glycemic index than white rice helps manage blood sugar. Cook as a side dish, in pilafs, salads, or sushi for a nutty flavor and chewy texture.",
+    "price": 4.25,
+    "discountPrice": 5.00,
+    "rating": 4.5,
+    "category": "grains",
+    "stock": 90,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/Rice6.jpg"
+  },
+  {
+    "id": "8",
+    "name": "White Rice",
+    "description": "Grains are small, hard, dry seeds, with or without attached hulls or fruit layers, harvested for human or animal consumption. Agronomists categorize them into cereals, legumes, and oilseeds. White rice is milled to remove the bran and germ, resulting in a polished grain with longer shelf life but fewer nutrients than brown rice. This variety provides quick energy from carbohydrates, is easy to digest, and gluten-free. Fortified versions add back vitamins like iron and B vitamins. Use in stir-fries, curries, puddings, or as a staple side; its neutral flavor absorbs seasonings well.",
+    "price": 3.50,
+    "discountPrice": 4.00,
+    "rating": 4.2,
+    "category": "grains",
+    "stock": 70,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/grains-2.jpg"
+  },
+  {
+    "id": "9",
+    "name": "Avocado",
+    "description": "Fruits are the ripened ovaries of flowering plants, often sweet and fleshy. Avocados are unique berries with a large seed, creamy texture, and high healthy fat content. Ripe Hass avocados have pebbly dark skin and are sold individually. Rich in monounsaturated fats for heart health, potassium for blood pressure, fiber for digestion, and vitamins K, C, E, B. Despite being calorie-dense, they aid weight management by promoting satiety. Mash for guacamole, slice on toast, blend in smoothies, or add to salads for buttery richness.",
+    "price": 1.99,
+    "discountPrice": 2.49,
+    "rating": 4.6,
+    "category": "fruit",
+    "stock": 110,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/fresh-fruits2.jpg"
+  },
+  {
+    "id": "10",
+    "name": "Chocolate Chip Cookie",
+    "description": "A cookie is a baked or cooked food that is typically small, flat and sweet. It usually contains flour, sugar and some type of oil or fat. It may include other ingredients such as raisins, oats, chocolate chips, nuts, etc. Chocolate chip cookies were invented in the 1930s and are a classic American treat with gooey chocolate morsels in a chewy or crispy dough. Made with butter, sugar, eggs, vanilla, and semi-sweet chips, they provide comfort and indulgence. While high in calories and sugar, dark chocolate chips add antioxidants. Enjoy fresh-baked for snacks, desserts, or with milk; variations include nuts for crunch or sea salt for contrast.",
+    "price": 1.49,
+    "discountPrice": 1.99,
+    "rating": 4.8,
+    "category": "fruit",
+    "stock": 150,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/p-28-m.png"
+  },
+  {
+    "id": "11",
+    "name": "Sourdough Loaf",
+    "description": "Bread is a staple food prepared from a dough of flour and water, usually by baking. Sourdough is fermented using naturally occurring lactobacilli and yeast, giving it a tangy flavor and chewy texture. This artisanal loaf is baked daily without commercial yeast, using a starter culture for natural leavening. Easier to digest due to fermentation breaking down gluten and phytic acid, it's rich in probiotics for gut health, fiber, and minerals. The crusty exterior and airy crumb make it ideal for toast, sandwiches, or dipping in soups and oils.",
+    "price": 5.99,
+    "discountPrice": 6.99,
+    "rating": 4.7,
+    "category": "bakery",
+    "stock": 45,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/bakery-2.jpg"
+  },
+  {
+    "id": "12",
+    "name": "Cheddar Cheese",
+    "description": "Dairy products are foods produced from milk. Cheese is made by coagulating milk protein casein, typically from cows, with aging for flavor development. Cheddar originates from England, known for its sharp, tangy taste that intensifies with age. This 8oz block is sharp cheddar, high in calcium for bones, protein for satiety, and fats for energy. Contains probiotics if aged naturally, supporting gut health. Melt on burgers, grate into mac and cheese, slice for snacks, or pair with fruits and wines.",
+    "price": 4.99,
+    "discountPrice": 5.75,
+    "rating": 4.6,
+    "category": "dairy",
+    "stock": 65,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/dairy-3.jpg"
+  },
+  {
+    "id": "13",
+    "name": "Cherry Tomatoes",
+    "description": "Vegetables encompass edible plant parts like fruits used as veggies. Tomatoes are botanically fruits but culinarily vegetables, originating from South America. Cherry tomatoes are small, bite-sized varieties, sweet and juicy in a 1-pint container. Bursting with lycopene for heart health, vitamin C for immunity, and potassium for muscles. Low-calorie, they add color and freshness to salads, pastas, skewers, or roasted as sides with a pop of flavor when bitten.",
+    "price": 3.25,
+    "discountPrice": 3.99,
+    "rating": 4.4,
+    "category": "vegetables",
+    "stock": 90,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/vegetables-4.jpg"
+  },
+  {
+    "id": "14",
+    "name": "Orange Juice",
+    "description": "Beverages include fruit juices extracted from produce. Orange juice comes from oranges, citrus fruits native to Asia, packed with vitamin C. This freshly squeezed 1-liter bottle offers immune-boosting nutrients, folate for cell health, and antioxidants like hesperidin for inflammation reduction. Hydrating and refreshing, it's pasteurized for safety but retains natural sweetness without additives. Drink for breakfast, in cocktails, marinades, or as a vitamin boost post-workout.",
+    "price": 4.75,
+    "discountPrice": 5.50,
+    "rating": 4.5,
+    "category": "beverages",
+    "stock": 55,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/beverages-1.jpg"
+  },
+  {
+    "id": "15",
+    "name": "Ground Beef",
+    "description": "Meat from cattle includes beef, a red meat rich in iron. Ground beef is minced muscle meat, lean varieties lower in fat. This 1lb pack provides protein for growth, zinc for immunity, and B12 for nerves. Versatile for burgers, meatballs, tacos, sauces; cooking ground ensures safety from bacteria. Grass-fed options offer omega-3s; season and brown for flavorful dishes like chili or lasagna.",
+    "price": 7.49,
+    "discountPrice": 8.50,
+    "rating": 4.7,
+    "category": "meats",
+    "stock": 35,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/meat-2.jpg"
+  },
+  {
+    "id": "16",
+    "name": "Quinoa",
+    "description": "Grains like pseudocereals include quinoa, a seed from South America. Complete protein with all essential amino acids, gluten-free. Organic 1lb bag offers fiber, iron, magnesium for energy and bones. Fluffy when cooked, nutty taste suits salads, bowls, or as rice substitute; rinse to remove saponins.",
+    "price": 5.50,
+    "discountPrice": 6.25,
+    "rating": 4.6,
+    "category": "grains",
+    "stock": 80,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/grains-3.jpg"
+  },
+  {
+    "id": "17",
+    "name": "Strawberries",
+    "description": "Fruits disseminate seeds; berries like strawberries are aggregate fruits. Fresh organic in 1lb container, vitamin C-rich for skin, folate for cells, antioxidants against aging. Sweet-tart, use in desserts, smoothies, salads, or fresh eating.",
+    "price": 5.99,
+    "discountPrice": 6.75,
+    "rating": 4.8,
+    "category": "fruit",
+    "stock": 70,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/fresh-fruits1.jpg"
+  },
+  {
+    "id": "18",
+    "name": "Organic Spring Mix",
+    "description": "Vegetables are parts of plants that are consumed by humans or other animals as food. the first meaning remains commonly used and is applied to plants collectively to ask all edible plant matter, including the flowers, fruits, stems, leaves, roots.",
+    "price": 2.49,
+    "discountPrice": 3.00,
+    "rating": 4.5,
+    "category": "vegetables",
+    "stock": 100,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/p-5-m.png"
+  },
+  {
+    "id": "19",
+    "name": "Salmon Fillet",
+    "description": "Seafood includes fish like salmon, omega-3 rich for heart and brain. Fresh Atlantic 1lb fillet, protein-packed, vitamin D for bones. Grill, bake, or poach for flaky texture and rich flavor.",
+    "price": 12.99,
+    "discountPrice": 14.50,
+    "rating": 4.9,
+    "category": "seafood",
+    "stock": 25,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/seafood-1.jpg"
+  },
+  {
+    "id": "20",
+    "name": "Dark Chocolate",
+    "description": "Snacks like chocolate from cacao beans, fermented and roasted. 70% cocoa bar 100g, flavonoids for blood pressure, magnesium for mood. Bitter-sweet, enjoy in moderation for antioxidants.",
+    "price": 3.29,
+    "discountPrice": 3.99,
+    "rating": 4.6,
+    "category": "snacks",
+    "stock": 60,
+    "image_url": "https://borobazar.redq.io/wp-content/uploads/2021/10/snacks-1.jpg"
+  }
+]
