@@ -18,7 +18,6 @@ export const getProductsByCategory = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 export const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id).populate({
@@ -31,7 +30,6 @@ export const getProductById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 export const searchProducts = async (req, res) => {
   try {
     const query = req.query.q || "";

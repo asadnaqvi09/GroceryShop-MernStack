@@ -138,10 +138,10 @@ function Header() {
           <div className="relative">
             <button
               onClick={() => setIsDropdownOpen((prev) => !prev)}
-              className="text-gray-600 hover:text-[#007BFF] text-xl p-1 cursor-pointer flex items-center gap-1"
+              className="text-gray-600 hover:text-[#02B290] text-xl p-1 cursor-pointer flex items-center gap-1"
             >
               <User size={22} />
-              <span className="hidden md:inline text-sm text-gray-700 font-medium">
+              <span className="hidden md:inline text-sm font-medium">
                 {user.name || user.email}
               </span>
             </button>
