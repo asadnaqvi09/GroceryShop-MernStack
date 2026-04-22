@@ -29,7 +29,6 @@ function Header() {
   const dropdownRef = useRef(null); // 🔹 Change: Ref for closing dropdown on outside click
 
   useEffect(() => {
-    // 🔹 Change: Click bahar hone par dropdown band karne ka logic
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setSuggestionDropDown(false);
@@ -56,7 +55,6 @@ function Header() {
     setIsDropdownOpen(false);
   };
 
-  // 🔹 Suggestion search logic (products filter)
   const fetchSearchSuggestions = (query) => {
     const suggestion = products
       ?.filter(
@@ -99,7 +97,6 @@ function Header() {
           placeholder="Search products..."
           className="w-full h-full outline-none border-0"
         />
-        {/* 🔹 Search Suggestion Dropdown */}
         {suggestionDropDown && searchQuery.trim().length >= 2 && (
           <div className="absolute top-full left-0 w-full bg-white shadow-lg mt-1 max-h-64 overflow-y-auto z-50">
             {fetchSearchSuggestions(searchQuery).length > 0 ? (
@@ -151,7 +148,8 @@ function Header() {
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 bg-white shadow-md rounded-lg w-44 z-50 cursor-pointer">
                 <div className="userName px-4 py-2 text-gray-600 font-medium flex items-center gap-2">
-                  <User size={15} /> {user.name}
+                  <User size={15} className="shrink-0" />
+                  <span className="truncate">{user.name}</span>
                 </div>
                 <hr className="w-full text-gray-200" />
                 <button
