@@ -1,6 +1,5 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import validator from "validator";
 import {generateOTP} from "../utility/generateOTP.js";
 import {generateToken} from '../utility/generateToken.js';
@@ -38,8 +37,6 @@ const registerUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "User Already Exists" });
     }
-    // const existingUser = await User.findOne({ email });
-    // const hashedPassword = await bcrypt.hash(password, GEN_SALT);
     const { otp, hashedOTP } = await generateOTP();
     const newUser = await User.create({
        name,
@@ -150,26 +147,20 @@ const resendOTP = async (req, res) => {
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
       return res.json({ message: "Email and Password are required" });
     }
     const user = await User.findOne({ email });
-
     if (!user) {
       return res.json({ message: "User not found" });
     }
-
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
       return res.json({ message: "Invalid Email or Password" });
     }
-
     if (!user.isVerified) {
-      return res.status(401).json({message: "Email not verified.Please verify your email o login"});
+      return res.status(401).json({message: "Email not verified.Please verify your email before logging in"});
     }
-
     const token = generateToken(user._id);
     res.cookie("token", token, {
       httpOnly: true,
@@ -177,7 +168,6 @@ const loginUser = async (req, res) => {
       sameSite: "strict",
       maxAge: 86400000,
     });
-
     res.status(200).json({
       message: "User logged in successfully",
       user: {
@@ -224,7 +214,6 @@ const forgotPassword = async (req,res)=> {
     user.resetOTP = hashedOTP;
     user.resetOTPExpire = Date.now() + 60000;
     await user.save();
-
     const html = `
       <h2> Password Reset Code : </h2>
       <p>Hi ${user.name}, </p>

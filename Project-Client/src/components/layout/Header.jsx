@@ -25,7 +25,6 @@ function Header() {
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const products = useSelector((state) => state.product.products);
-
   const dropdownRef = useRef(null); // 🔹 Change: Ref for closing dropdown on outside click
 
   useEffect(() => {
@@ -37,7 +36,6 @@ function Header() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -46,7 +44,6 @@ function Header() {
       setSuggestionDropDown(false); // 🔹 Change: Search submit hone par dropdown band
     }
   };
-
   const handleLogOut = () => {
     dispatch(logoutUser());
     dispatch(clearCart());
@@ -54,7 +51,6 @@ function Header() {
     localStorage.removeItem("persist:root");
     setIsDropdownOpen(false);
   };
-
   const fetchSearchSuggestions = (query) => {
     const suggestion = products
       ?.filter(
@@ -65,13 +61,11 @@ function Header() {
       .slice(0, 5);
     return suggestion || [];
   };
-
   const handleSuggestionClick = (product) => {
     navigate(`/product/${product.id}`);
     setSuggestionDropDown(false);
     setSearchQuery("");
   };
-
   return (
     <header className="border-b border-gray-300 py-4 px-4 md:px-16 flex justify-between items-center mb-2 relative">
       <NavLink to="/" className="flex items-center">
