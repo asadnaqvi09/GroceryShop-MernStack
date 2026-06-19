@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { apiRequest } from "../../config/apiHelper";
 import AdminLayout from "../../components/layout/AdminLayout";
 import { toast } from "react-toastify";
+import { X } from "lucide-react";
 
 function AdminProducts() {
   const [products, setProducts] = useState([]);
@@ -31,16 +32,25 @@ function AdminProducts() {
     }
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
-
   const resetForm = () => {
     setForm({ name: "", description: "", price: "", discountPrice: "", category: "", stock: "", image: null });
     setPreview(null);
     setEditing(null);
     setShowForm(false);
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  useEffect(() => {
+    if (!showForm) return;
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") resetForm();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showForm]);
 
   const handleEdit = (product) => {
     setEditing(product);
@@ -120,18 +130,19 @@ function AdminProducts() {
       </div>
       {showForm && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 p-4"
-          onClick={resetForm}
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) resetForm();
+          }}
         >
-          <div
-            className="bg-white w-full max-w-lg rounded-xl shadow-lg p-6 relative max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="bg-white w-full max-w-lg rounded-xl shadow-lg p-6 relative max-h-[90vh] overflow-y-auto">
             <button
+              type="button"
               onClick={resetForm}
-              className="absolute top-2 right-3 text-gray-500 hover:text-gray-700 text-lg"
+              aria-label="Close"
+              className="absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full text-gray-500 hover:text-gray-700 hover:bg-gray-100 transition"
             >
-              ✕
+              <X size={18} />
             </button>
             <h2 className="text-lg font-semibold text-gray-800 mb-4">
               {editing ? "Edit Product" : "Add Product"}
