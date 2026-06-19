@@ -14,6 +14,7 @@ function ProductDetails() {
   const { name, category } = useParams();
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.product);
+  const user = useSelector((state) => state.auth.user);
   const [activeTab, setActiveTab] = useState("description");
   const [quantity, setQuantity] = useState(1);
 
@@ -25,10 +26,18 @@ function ProductDetails() {
     (item) => item.name.toLowerCase().replace(/\s+/g, "-") === name.toLowerCase()
   );
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!product) return;
-    dispatch(addProduct({ ...product, quantity }));
-    toast.success(`${product.name} added to cart`);
+    if (!user) {
+      toast.error("Please login to add to cart");
+      return;
+    }
+    try {
+      await dispatch(addProduct({ ...product, quantity })).unwrap();
+      toast.success(`${product.name} added to cart`);
+    } catch {
+      toast.error("Failed to add to cart");
+    }
   };
 
   if (loading)

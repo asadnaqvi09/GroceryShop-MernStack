@@ -11,13 +11,17 @@ function ProductCard({ product }) {
   const navUrl = product.name
     ? product.name.toLowerCase().replace(/\s+/g, "-")
     : "product";
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!user) {
       toast.error("Please login to add to cart");
       return;
     }
-    dispatch(addProduct({ ...product, quantity: 1 }));
-    toast.success(`${product.name} added to cart`);
+    try {
+      await dispatch(addProduct({ ...product, quantity: 1 })).unwrap();
+      toast.success(`${product.name} added to cart`);
+    } catch {
+      toast.error("Failed to add to cart");
+    }
   };
   return (
     <div className="flex flex-col rounded-xl overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all duration-300">

@@ -1,6 +1,6 @@
 import React from "react";
 import { FaFacebookF, FaInstagram, FaPinterest, FaYoutube } from "react-icons/fa";
-import { FaCcVisa, FaCcMastercard, FaCcPaypal, FaCcAmazonPay } from "react-icons/fa";
+import { Banknote, Smartphone } from "lucide-react";
 
 function Footer() {
   const footerLinks = [
@@ -27,13 +27,13 @@ function Footer() {
         <div>
           <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
           <p className="text-sm text-gray-500">
-            ClassyShop - Mega Super Store
+            Bazaarly - Mega Super Store
             <br />
             507 Union Trade Centre France
           </p>
           <p className="text-sm text-gray-500 mt-2">sales@yourcompany.com</p>
           <p className="text-green-600 font-semibold text-lg mt-2">
-            (+91) 9876-543-210
+            +92 000 0000000
           </p>
         </div>
 
@@ -83,14 +83,18 @@ function Footer() {
           </div>
 
           <p className="text-sm text-gray-500">
-            © 2024 ClassyShop. All rights reserved.
+            © 2026 Bazaarly. All rights reserved.
           </p>
 
-          <div className="flex gap-5 text-3xl text-gray-600">
-            <FaCcVisa />
-            <FaCcMastercard />
-            <FaCcPaypal />
-            <FaCcAmazonPay />
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1.5 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg px-3 py-1.5">
+              <Banknote size={18} className="text-[#02B290]" />
+              <span className="font-medium">COD</span>
+            </div>
+            <div className="flex items-center gap-1.5 text-sm text-gray-600 bg-white border border-gray-200 rounded-lg px-3 py-1.5">
+              <Smartphone size={18} className="text-[#02B290]" />
+              <span className="font-medium">Easypaisa</span>
+            </div>
           </div>
         </div>
       </div>

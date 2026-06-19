@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Lock from "../../../assets/icons/Lock.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { resendOTP, verifyOTP, verifyResetOTP } from "../../../redux/features/auth/authSlice";
+import { resendOTP, verifyOTP, verifyResetOTP, resendResetOTP } from "../../../redux/features/auth/authSlice";
 import { toast } from "react-toastify";
 
 function VerifyOTP() {
@@ -87,7 +87,11 @@ function VerifyOTP() {
   }, [otptimer]);
 
   const handleResend = () => {
-    dispatch(resendOTP({ email }));
+    if (type === "reset") {
+      dispatch(resendResetOTP({ email }));
+    } else {
+      dispatch(resendOTP({ email }));
+    }
     setOtpTimer(60);
   };
 

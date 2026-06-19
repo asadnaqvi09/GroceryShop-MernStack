@@ -1,15 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { apiRequest } from "../../../config/apiHelper";
 
-const API_URL = "http://localhost:4000/api/products";
 export const fetchProducts = createAsyncThunk(
   "products/fetchAll",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await axios.get(API_URL);
-      return res.data;
+      const data = await apiRequest("/api/products");
+      return data.products;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || error.message);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -17,10 +16,10 @@ export const fetchProductsByCategory = createAsyncThunk(
   "products/fetchByCategory",
   async (category, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`${API_URL}/category/${category}`);
-      return res.data;
+      const data = await apiRequest(`/api/products/category/${category}`);
+      return data.products;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || error.message);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -28,10 +27,10 @@ export const searchProducts = createAsyncThunk(
   "products/search",
   async (query, { rejectWithValue }) => {
     try {
-      const res = await axios.get(`${API_URL}/search?q=${query}`);
-      return res.data;
+      const data = await apiRequest(`/api/products/search?q=${encodeURIComponent(query)}`);
+      return data.products;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || error.message);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -40,7 +39,9 @@ const productSlice = createSlice({
   name: "product",
   initialState: {
     products: [],
+    searchResults: [],
     loading: false,
+    searchLoading: false,
     error: null,
   },
   reducers: {},
@@ -70,14 +71,15 @@ const productSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(searchProducts.pending, (state) => {
-        state.loading = true;
+        state.searchLoading = true;
+        state.error = null;
       })
       .addCase(searchProducts.fulfilled, (state, action) => {
-        state.loading = false;
-        state.products = action.payload;
+        state.searchLoading = false;
+        state.searchResults = action.payload;
       })
       .addCase(searchProducts.rejected, (state, action) => {
-        state.loading = false;
+        state.searchLoading = false;
         state.error = action.payload;
       });
   },

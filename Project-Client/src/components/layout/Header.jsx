@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/features/auth/authSlice";
-import { clearCart } from "../../redux/features/cart/cartSlice";
+import { resetCartLocal } from "../../redux/features/cart/cartSlice";
 import {
   Search,
   Heart,
@@ -11,7 +11,6 @@ import {
   X,
   LogOut,
   CircleGauge,
-  ShoppingBag,
 } from "lucide-react";
 import webLogo from "../../assets/icons/logo.png";
 
@@ -46,7 +45,7 @@ function Header() {
   };
   const handleLogOut = () => {
     dispatch(logoutUser());
-    dispatch(clearCart());
+    dispatch(resetCartLocal());
     localStorage.removeItem("user");
     localStorage.removeItem("persist:root");
     setIsDropdownOpen(false);
@@ -61,8 +60,10 @@ function Header() {
       .slice(0, 5);
     return suggestion || [];
   };
+  const slugify = (name) =>
+    name ? name.toLowerCase().replace(/\s+/g, "-") : "product";
   const handleSuggestionClick = (product) => {
-    navigate(`/product/${product.id}`);
+    navigate(`/${product.category}/${slugify(product.name)}`);
     setSuggestionDropDown(false);
     setSearchQuery("");
   };
@@ -95,9 +96,9 @@ function Header() {
           <div className="absolute top-full left-0 w-full bg-white shadow-lg mt-1 max-h-64 overflow-y-auto z-50">
             {fetchSearchSuggestions(searchQuery).length > 0 ? (
               <ul className="flex flex-col">
-                {fetchSearchSuggestions(searchQuery).map((product, idx) => (
+                {fetchSearchSuggestions(searchQuery).map((product) => (
                   <li
-                    key={idx}
+                    key={product._id}
                     className="flex items-center gap-4 p-3 hover:bg-gray-100 cursor-pointer last:border-none transition"
                     onClick={() => handleSuggestionClick(product)}
                   >
@@ -146,15 +147,27 @@ function Header() {
                   <span className="truncate">{user.name}</span>
                 </div>
                 <hr className="w-full text-gray-200" />
-                <button
-                  onClick={() => {
-                    navigate(user.role === "admin" ? "/admin/dashboard" : "/");
-                    setIsDropdownOpen(false);
-                  }}
-                  className="block w-full px-4 py-2 text-left hover:bg-gray-100 flex items-center gap-2 text-gray-600"
-                >
-                  <CircleGauge size={15} /> Dashboard
-                </button>
+                {user.role === "admin" ? (
+                  <button
+                    onClick={() => {
+                      navigate("/admin/dashboard");
+                      setIsDropdownOpen(false);
+                    }}
+                    className="block w-full px-4 py-2 text-left hover:bg-gray-100 flex items-center gap-2 text-gray-600"
+                  >
+                    <CircleGauge size={15} /> Dashboard
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      navigate("/orders");
+                      setIsDropdownOpen(false);
+                    }}
+                    className="block w-full px-4 py-2 text-left hover:bg-gray-100 flex items-center gap-2 text-gray-600"
+                  >
+                    <CircleGauge size={15} /> My Orders
+                  </button>
+                )}
                 <button
                   onClick={handleLogOut}
                   className="block w-full px-4 py-2 text-left hover:bg-gray-100 flex items-center gap-2 text-gray-600"

@@ -13,7 +13,7 @@ function ProductList({ products = [], pageType }) {
       <AnimatePresence>
         {products.map((product, index) => (
           <motion.div
-            key={product.id || index}
+            key={product._id || index}
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: -30 }}

@@ -6,7 +6,7 @@ function Service() {
   const service = [
     {id:1,name:"Free Shipping",subHeading:"For All Orders Over 100$",icon:<Truck size={30}/>},
     {id:2,name:"30 Days Return",subHeading:"For An Exchange Product",icon:<ReceiptEuroIcon size={30}/>},
-    {id:3,name:"Secured Payment",subHeading:"Payment Cards Accepted",icon:<DollarSign size={30}/>},
+    {id:3,name:"Secured Payment",subHeading:"COD & Easypaisa Accepted",icon:<DollarSign size={30}/>},
     {id:4,name:"Special Gifts",subHeading:"Our First Product Order",icon:<Gift size={30}/>},
     {id:5,name:"Support 24/7",subHeading:"Contact Us AnyTime",icon:<HeadphonesIcon size={30}/>}
   ]  

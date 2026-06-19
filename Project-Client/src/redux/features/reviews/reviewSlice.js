@@ -1,103 +1,68 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { apiRequest } from "../../../config/apiHelper";
 
-const API_URL = "http://localhost:4000/api/reviews";
+const API_URL = "/api/reviews";
+
 export const createReview = createAsyncThunk(
   "reviews/createReview",
-  async (reviewData, { rejectWithValue, getState }) => {
+  async (reviewData, { rejectWithValue }) => {
     try {
-      const state = getState();
-      const token = state.auth?.user?.token;
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const { data } = await axios.post(`${API_URL}/create`, reviewData, config);
+      const data = await apiRequest(`${API_URL}/create`, { method: "POST", body: reviewData });
       toast.success("Review added successfully!");
       return data.review;
     } catch (error) {
-      const message =
-        error.response?.data?.message || "Failed to create review";
-      toast.error(message);
-      return rejectWithValue(message);
+      toast.error(error.message || "Failed to create review");
+      return rejectWithValue(error.message || "Failed to create review");
     }
   }
 );
+
 export const getReviewsByProduct = createAsyncThunk(
   "reviews/getReviewsByProduct",
   async (productID, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${API_URL}/${productID}`);
+      const data = await apiRequest(`${API_URL}/${productID}`);
       return data.reviews;
     } catch (error) {
-      const message =
-        error.response?.data?.message || "Failed to fetch reviews";
-      toast.error(message);
+      const message = error.message || "Failed to fetch reviews";
+      if (!message.includes("No reviews")) toast.error(message);
       return rejectWithValue(message);
     }
   }
 );
+
 export const updateReview = createAsyncThunk(
   "reviews/updateReview",
-  async ({ reviewID, updatedData }, { rejectWithValue, getState }) => {
+  async ({ reviewID, updatedData }, { rejectWithValue }) => {
     try {
-      const state = getState();
-      const token = state.auth?.user?.token;
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      const { data } = await axios.put(
-        `${API_URL}/${reviewID}`,
-        updatedData,
-        config
-      );
+      const data = await apiRequest(`${API_URL}/${reviewID}`, {
+        method: "PUT",
+        body: updatedData,
+      });
       toast.success("Review updated successfully!");
       return data.review;
     } catch (error) {
-      const message =
-        error.response?.data?.message || "Failed to update review";
-      toast.error(message);
-      return rejectWithValue(message);
+      toast.error(error.message || "Failed to update review");
+      return rejectWithValue(error.message || "Failed to update review");
     }
   }
 );
+
 export const deleteReview = createAsyncThunk(
   "reviews/deleteReview",
-  async (reviewID, { rejectWithValue, getState }) => {
+  async (reviewID, { rejectWithValue }) => {
     try {
-      const state = getState();
-      const token = state.auth?.user?.token;
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true,
-      };
-
-      await axios.delete(`${API_URL}/${reviewID}`, config);
+      await apiRequest(`${API_URL}/${reviewID}`, { method: "DELETE" });
       toast.success("Review deleted successfully!");
       return reviewID;
     } catch (error) {
-      const message =
-        error.response?.data?.message || "Failed to delete review";
-      toast.error(message);
-      return rejectWithValue(message);
+      toast.error(error.message || "Failed to delete review");
+      return rejectWithValue(error.message || "Failed to delete review");
     }
   }
 );
+
 const reviewSlice = createSlice({
   name: "reviews",
   initialState: {

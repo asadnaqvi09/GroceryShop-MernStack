@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import {generateOTP} from "../utility/generateOTP.js";
-import {generateToken} from '../utility/generateToken.js';
+import {generateToken, generateResetToken} from '../utility/generateToken.js';
 import {sendEmail} from "../utility/sendEmail.js";
 
 const GEN_SALT = 10;
@@ -27,15 +27,14 @@ const registerUser = async (req, res) => {
       errors.push("Passwords do not match");
     }
     if (errors.length >0) {
-      return res.status(400).json({ message: errors.join(", ") });
+      return res.status(400).json({ success: false, error: errors.join(", ") });
     }
-
     const [existingUser, hashedPassword] = await Promise.all([
       User.findOne({ email }),
       bcrypt.hash(password, GEN_SALT),
     ])
     if (existingUser) {
-      return res.status(400).json({ message: "User Already Exists" });
+      return res.status(400).json({ success: false, error: "User Already Exists" });
     }
     const { otp, hashedOTP } = await generateOTP();
     const newUser = await User.create({
@@ -46,7 +45,6 @@ const registerUser = async (req, res) => {
        otpExpire: Date.now() + 60000,
        isVerified: false,
      });
-
     const html = `
       <div style="font-family:sans-serif">
         <h2>Email Verification</h2>
@@ -59,10 +57,10 @@ const registerUser = async (req, res) => {
     sendEmail(email, "Verify your Grocery Shop account", html).catch((err)=> {
       console.error("Error sending email:", err);
     });
-    res.status(201).json({ message: "Verification Code sent to your email" });
+    res.status(201).json({ success: true, data: { message: "Verification Code sent to your email", newUser } });
   } catch (error) {
     console.error("Error registering user:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
 
@@ -71,62 +69,62 @@ const verifyOTP = async (req, res) => {
     const { email, otpCode } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, error: "User not found" });
     }
     if (Date.now() > user.otpExpire) {
-      return res.status(400).json({ message: "OTP Expired.Please Request New One" });
+      return res.status(400).json({ success: false, error: "OTP Expired.Please Request New One" });
     }
     const isOTPValid = await bcrypt.compare(otpCode, user.otpCode);
     if (!isOTPValid) {
-      return res.status(400).json({ message: "Invalid OTP" });
+      return res.status(400).json({ success: false, error: "Invalid OTP" });
     }
     user.isVerified = true;
     user.otpCode = undefined;
     user.otpExpire = undefined;
     await user.save();
-
     const token = generateToken(user._id);
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
-      maxAge: 86400000, // 1 day
+      maxAge: 86400000,
     });
-
     res.status(200).json({
-      message: "User Logged In Successfully",
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
+      success: true,
+      data: {
+        message: "User Logged In Successfully",
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+        token: token,
       },
-      token: token,
     });
   } catch (error) {
     console.error("Error verifying OTP:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
 
 const resendOTP = async (req, res) => {
   try {
-    const { email } = req.body; 
+    const { email } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, error: "User not found" });
     }
     if (user.isVerified) {
-      return res.status(400).json({ message: "User already verified" });
+      return res.status(400).json({ success: false, error: "User already verified" });
     }
     if (Date.now() < user.otpExpire) {
-      return res.status(400).json({ message: "OTP not expired yet" });
+      return res.status(400).json({ success: false, error: "OTP not expired yet" });
     }
     const { otp, hashedOTP } = await generateOTP();
     user.otpCode = hashedOTP;
     user.otpExpire = Date.now() + 60000;
     await user.save();
-
     const html = `
       <div style="font-family:sans-serif">
         <h2>Email Verification</h2>
@@ -137,10 +135,10 @@ const resendOTP = async (req, res) => {
       </div>
     `;
     await sendEmail(email, "Verify your Grocery Shop account", html);
-    res.status(200).json({ message: "OTP sent successfully" });
+    res.status(200).json({ success: true, data: { message: "OTP sent successfully" } });
   } catch (error) {
     console.error("Error resending OTP:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
 
@@ -148,18 +146,18 @@ const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.json({ message: "Email and Password are required" });
+      return res.status(400).json({ success: false, error: "Email and Password are required" });
     }
     const user = await User.findOne({ email });
     if (!user) {
-      return res.json({ message: "User not found" });
+      return res.status(404).json({ success: false, error: "User not found" });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.json({ message: "Invalid Email or Password" });
+      return res.status(401).json({ success: false, error: "Invalid Email or Password" });
     }
     if (!user.isVerified) {
-      return res.status(401).json({message: "Email not verified.Please verify your email before logging in"});
+      return res.status(401).json({ success: false, error: "Email not verified.Please verify your email before logging in"});
     }
     const token = generateToken(user._id);
     res.cookie("token", token, {
@@ -169,19 +167,22 @@ const loginUser = async (req, res) => {
       maxAge: 86400000,
     });
     res.status(200).json({
-      message: "User logged in successfully",
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        isVerified: user.isVerified,
+      success: true,
+      data: {
+        message: "User logged in successfully",
+        user: {
+          _id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+          isVerified: user.isVerified,
+        },
+        token: token,
       },
-      token: token,
     });
   } catch (error) {
     console.error("Error logging in user:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
 
@@ -192,11 +193,10 @@ const logoutUser = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-
-    res.status(200).json({ message: "User logged out successfully" });
+    res.status(200).json({ success: true, data: { message: "User logged out successfully" } });
   } catch (error) {
     console.error("Error logging out user:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
 
@@ -204,11 +204,11 @@ const forgotPassword = async (req,res)=> {
   try {
     const {email} = req.body;
     if(!email || !validator.isEmail(email)){
-      return res.status(400).json({message: "Invalid Email"})
+      return res.status(400).json({ success: false, error: "Invalid Email"})
     }
     const user = await User.findOne({email});
     if(!user){
-      return res.status(404).json({message: "User not found"})
+      return res.status(404).json({ success: false, error: "User not found"})
     }
     const { otp,hashedOTP } = await generateOTP();
     user.resetOTP = hashedOTP;
@@ -222,10 +222,10 @@ const forgotPassword = async (req,res)=> {
       <p>This code will expire in <b>1 minute</b>.</p>
     `
     await sendEmail(email, "Grocery Shop Password Reset Code", html);
-    res.status(200).json({message: "Reset OTP sent to your email"})
+    res.status(200).json({ success: true, data: { message: "Reset OTP sent to your email" }})
   } catch (error) {
     console.error("Error In Reset Password Controller:", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
 
@@ -234,50 +234,78 @@ const verifyResetOTP = async(req,res)=> {
     const { email,otpCode } = req.body;
     const user = await User.findOne({email});
     if (!user){
-      return res.status(404).json({ message: "User not found"});
+      return res.status(404).json({ success: false, error: "User not found"});
     }
     const isOTPValid = await bcrypt.compare(otpCode, user.resetOTP);
     if (!isOTPValid || Date.now()> user.resetOTPExpire){
-      return res.status(400).json({ message: "Invalid OTP or OTP Expired"});
+      return res.status(400).json({ success: false, error: "Invalid OTP or OTP Expired"});
     }
     user.isResetVerified = true;
     user.resetOTP = undefined;
     user.resetOTPExpire = undefined;
     await user.save();
-    res.status(200).json({message: "OTP Verified Successfully"});
+    const resetToken = generateResetToken(user._id);
+    res.status(200).json({ success: true, data: { message: "OTP Verified Successfully", resetToken } });
   } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error" });
+    return res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 }
 
-const resetPassword = async (req,res)=> {
+const resendResetOTP = async (req, res) => {
   try {
-    const { email,newPassword,confirmPassword } = req.body;
-    const user = await User.findOne({email});
-    if (!user){
-      return res.status(404).json({ message: "User not found"});
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
     }
-    if (!newPassword || !confirmPassword){
-      return res.status(400).json( {message:"Please fill all required fields"} );
+    if (Date.now() < user.resetOTPExpire) {
+      return res.status(400).json({ success: false, error: "OTP not expired yet" });
     }
-    if (newPassword.length < 6){
-      return res.status(400).json( {message: "Password must be at least 6 characters long"});
+    const { otp, hashedOTP } = await generateOTP();
+    user.resetOTP = hashedOTP;
+    user.resetOTPExpire = Date.now() + 60000;
+    user.isResetVerified = false;
+    await user.save();
+    const html = `
+      <h2> Password Reset Code : </h2>
+      <p>Hi ${user.name}, </p>
+      <p>Your password reset code is:</p>
+      <h1 style="letter-spacing:5px">${otp}</h1>
+      <p>This code will expire in <b>1 minute</b>.</p>
+    `;
+    await sendEmail(email, "Grocery Shop Password Reset Code", html);
+    res.status(200).json({ success: true, data: { message: "Reset OTP sent successfully" } });
+  } catch (error) {
+    console.error("Error resending reset OTP:", error);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { email, newPassword, confirmPassword } = req.body;
+    const user = req.resetUser;
+    if (user.email !== email) {
+      return res.status(400).json({ success: false, error: "Email does not match verified account" });
+    }
+    if (!newPassword || !confirmPassword) {
+      return res.status(400).json({ success: false, error: "Please fill all required fields" });
+    }
+    if (newPassword.length < 6) {
+      return res.status(400).json({ success: false, error: "Password must be at least 6 characters long" });
     }
     if (newPassword !== confirmPassword) {
-      return res.status(400).json({ message: "Passwords did not match"});
-    }
-    if(!user.isResetVerified){
-      return res.status(401).json({message: "Unauthorized Request OTP not verified"});
+      return res.status(400).json({ success: false, error: "Passwords did not match" });
     }
     const hashPass = await bcrypt.hash(newPassword, GEN_SALT);
     user.password = hashPass;
     user.isResetVerified = false;
     await user.save();
-    res.status(200).json({message: "Password Reset Successfully"});
+    res.status(200).json({ success: true, data: { message: "Password Reset Successfully" } });
   } catch (error) {
-    return res.status(500).json({ message: "Internal Server Error" });
-    console.log("Error In Reset Password Controller:", error);
+    console.error("Error In Reset Password Controller:", error);
+    return res.status(500).json({ success: false, error: "Internal Server Error" });
   }
-}
+};
 
-export { loginUser, registerUser, logoutUser, verifyOTP, forgotPassword, resetPassword, resendOTP, verifyResetOTP };
+export { loginUser, registerUser, logoutUser, verifyOTP, forgotPassword, resetPassword, resendOTP, verifyResetOTP, resendResetOTP };

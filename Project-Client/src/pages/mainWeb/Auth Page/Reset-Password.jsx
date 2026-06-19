@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, NavLink, useLocation } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Lock from "../../../assets/icons/Lock.png";
@@ -19,9 +19,16 @@ function ResetPassword() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email || "";
+  const authEmail = useSelector((state) => state.auth.email);
   const { resetToken } = useSelector((state) => state.auth);
+  const email = location.state?.email || authEmail || "";
   const token = resetToken || location.state?.resetToken;
+
+  useEffect(() => {
+    if (!email || !token) {
+      navigate("/forgot-password");
+    }
+  }, [email, token, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

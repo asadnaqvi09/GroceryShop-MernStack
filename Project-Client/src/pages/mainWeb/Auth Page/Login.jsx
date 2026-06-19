@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { loginUser } from "../../../redux/features/auth/authSlice";
+import { fetchCart } from "../../../redux/features/cart/cartSlice";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -53,8 +54,8 @@ const Login = () => {
 
     try {
       const result = await dispatch(loginUser({ email, password })).unwrap();
+      await dispatch(fetchCart()).unwrap();
       toast.success(result?.message || "Welcome back!");
-      localStorage.setItem("user", JSON.stringify(result.user));
       setFormData({ email: "", password: "" });
       setFieldErrors({});
       navigate("/");

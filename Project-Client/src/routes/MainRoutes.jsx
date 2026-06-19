@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCart } from "../redux/features/cart/cartSlice";
 import Loader from "../components/common/Loader";
 import Navigation from "../components/layout/Navigation";
 import { AnimatePresence } from "framer-motion";
@@ -17,21 +19,35 @@ import VerifyOTP from "../pages/mainWeb/Auth Page/Verify-OTP";
 import Footer from "../components/layout/Footer";
 import CheckOut from "../components/layout/CheckOut";
 import ProductDetails from "../components/layout/ProductDetails";
+import Orders from "../components/layout/Orders";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import AdminProducts from "../pages/admin/AdminProducts";
+import AdminOrders from "../pages/admin/AdminOrders";
+import AdminShell from "../components/layout/AdminShell";
 function MainRoutes() {
   const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
   const [initialLoading, setInitialLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => setInitialLoading(false), 2000);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      dispatch(fetchCart());
+    }
+  }, [user, dispatch]);
   return (
     <div>
       {initialLoading ? (
         <Loader />
       ) : (
         <>
-          <Navigation />
+          {!isAdminRoute && <Navigation />}
           <AnimatePresence mode="wait">
             <Routes location={location} key={location.pathname}>
               <Route
@@ -77,20 +93,60 @@ function MainRoutes() {
               <Route
                 path="/cart"
                 element={
-                  <ProtectedRoute allowedRoles={["user"]}>
+                  <ProtectedRoute allowedRoles={["user", "admin"]}>
                     <PageWrapper>
                       <Cart />
                     </PageWrapper>
                   </ProtectedRoute>
-                } 
+                }
               />
               <Route
                 path="/checkout"
                 element={
-                  <ProtectedRoute allowedRoles={["user"]}>
+                  <ProtectedRoute allowedRoles={["user", "admin"]}>
                     <PageWrapper>
                       <CheckOut />
                     </PageWrapper>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/orders"
+                element={
+                  <ProtectedRoute allowedRoles={["user", "admin"]}>
+                    <PageWrapper>
+                      <Orders />
+                    </PageWrapper>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <ProtectedRoute allowedRoles={["admin"]}>
+                    <AdminShell>
+                      <AdminDashboard />
+                    </AdminShell>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/products"
+                element={
+                  <ProtectedRoute allowedRoles={["admin"]}>
+                    <AdminShell>
+                      <AdminProducts />
+                    </AdminShell>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/admin/orders"
+                element={
+                  <ProtectedRoute allowedRoles={["admin"]}>
+                    <AdminShell>
+                      <AdminOrders />
+                    </AdminShell>
                   </ProtectedRoute>
                 }
               />
@@ -140,7 +196,7 @@ function MainRoutes() {
               />
             </Routes>
           </AnimatePresence>
-          <Footer />
+          {!isAdminRoute && <Footer />}
         </>
       )}
     </div>

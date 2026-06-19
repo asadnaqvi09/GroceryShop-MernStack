@@ -61,7 +61,7 @@ function Cart() {
           {cartItems.length > 0 ? (
             cartItems.map((product) => (
               <div
-                key={product.id}
+                key={product._id}
                 className="productItem flex items-center justify-between p-4 border-b border-gray-100"
               >
                 <div className="flex items-center">
