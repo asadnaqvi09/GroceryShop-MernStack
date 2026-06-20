@@ -86,7 +86,7 @@ function ProductDetails() {
           transition={{ duration: 0.6 }}
           className="w-full md:w-[40%] flex flex-col gap-4"
         >
-          <div className="mainImg w-[450px]">
+          <div className="mainImg md:w-[450px] w-[250px]">
             <img
               src={product.image_url}
               alt={product.name}
