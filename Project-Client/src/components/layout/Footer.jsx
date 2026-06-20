@@ -63,7 +63,7 @@ function Footer() {
               className="flex-1 px-4 py-3 text-sm outline-none bg-transparent"
             />
             <button className="px-6 py-3 bg-green-500 text-white font-medium hover:bg-green-600 transition">
-              Subscribe
+              Go
             </button>
           </div>
         </div>
