@@ -86,7 +86,7 @@ function ProductDetails() {
           transition={{ duration: 0.6 }}
           className="w-full md:w-[40%] flex flex-col gap-4"
         >
-          <div className="mainImg w-[450px]">
+          <div className="mainImg md:w-[450px] w-[250px]">
             <img
               src={product.image_url}
               alt={product.name}
@@ -162,11 +162,10 @@ function ProductDetails() {
           {["description", "reviews"].map((tab) => (
             <button
               key={tab}
-              className={`pb-2 font-medium capitalize transition-all ${
-                activeTab === tab
+              className={`pb-2 font-medium capitalize transition-all ${activeTab === tab
                   ? "text-green-600 border-b-2 border-green-600"
                   : "text-gray-500 hover:text-green-600"
-              }`}
+                }`}
               onClick={() => setActiveTab(tab)}
             >
               {tab}
